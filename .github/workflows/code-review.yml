@@ -1,0 +1,54 @@
+name: Code Review (Lint + Test)
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "orchestrator/**"
+      - "workloads/**"
+      - "tests/**"
+      - "config/**"
+      - "scenarios/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
+      - ".github/workflows/code-review.yml"
+  push:
+    branches: [ main ]
+    paths:
+      - "orchestrator/**"
+      - "workloads/**"
+      - "tests/**"
+      - "config/**"
+      - "scenarios/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
+      - ".github/workflows/code-review.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b
+        with:
+          enable-cache: true
+
+      - name: Lint + test
+        run: |
+          set -euo pipefail
+          make install
+          make check

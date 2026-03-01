@@ -76,3 +76,11 @@ In native mode, this scenario starts three services for comparison:
 - `native` mode expects `uv` and Rust/Cargo installed locally.
 - Scenario model setup currently targets `/tmp/onnx-runner-comparison/model.onnx`
   so both implementations use the exact same ONNX file.
+
+## CI
+
+GitHub Actions includes:
+- `code-review`: runs lint + test (`make check`) on Ubuntu.
+- `build-all`: runs `make check` on Ubuntu and macOS.
+- `lock-sync`: verifies `uv.lock` is synchronized (`uv lock --check`).
+- `coverage`: generates test coverage and uploads `coverage.xml` to Codecov.

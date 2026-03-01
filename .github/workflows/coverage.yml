@@ -1,0 +1,62 @@
+name: Code Coverage (Codecov)
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "orchestrator/**"
+      - "workloads/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
+      - ".github/workflows/coverage.yml"
+  push:
+    branches: [ main ]
+    paths:
+      - "orchestrator/**"
+      - "workloads/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
+      - ".github/workflows/coverage.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b
+        with:
+          enable-cache: true
+
+      - name: Generate coverage
+        run: |
+          set -euo pipefail
+          make install
+          uv run --with pytest-cov pytest \
+            --cov=orchestrator \
+            --cov=workloads \
+            --cov-report=term \
+            --cov-report=xml:coverage.xml
+          test -s coverage.xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: false
+          verbose: true
