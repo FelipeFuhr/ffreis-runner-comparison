@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
-from os import environ as os_environ
-from subprocess import Popen as subprocess_Popen, TimeoutExpired as subprocess_TimeoutExpired, call as subprocess_call, check_call as subprocess_check_call
 from contextlib import AbstractContextManager
+from os import environ as os_environ
 from pathlib import Path
+from subprocess import Popen as subprocess_Popen
+from subprocess import TimeoutExpired as subprocess_TimeoutExpired
+from subprocess import call as subprocess_call
+from subprocess import check_call as subprocess_check_call
 
 from yaml import safe_load as yaml_safe_load
 

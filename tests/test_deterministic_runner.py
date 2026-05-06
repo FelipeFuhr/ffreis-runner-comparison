@@ -1,5 +1,5 @@
-from sys import path as sys_path
 from pathlib import Path
+from sys import path as sys_path
 
 sys_path.insert(0, str(Path(__file__).resolve().parents[1]))
 

@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-from time import perf_counter as time_perf_counter, sleep as time_sleep
 from statistics import mean
+from time import perf_counter as time_perf_counter
+from time import sleep as time_sleep
 from typing import Callable
 
 
