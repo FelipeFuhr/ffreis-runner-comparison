@@ -9,6 +9,6 @@ on:
 
 jobs:
   scorecard:
-    uses: FelipeFuhr/ffreis-workflows-general/.github/workflows/general-scorecard.yml@main
+    uses: FelipeFuhr/ffreis-workflows-general/.github/workflows/general-scorecard.yml@v1.2.0
     with:
       upload-sarif: true

@@ -6,7 +6,7 @@ on:
 
 jobs:
   labeler:
-    uses: FelipeFuhr/ffreis-workflows-general/.github/workflows/general-labeler.yml@main
+    uses: FelipeFuhr/ffreis-workflows-general/.github/workflows/general-labeler.yml@v1.2.0
     with:
       rules-json: |-
         [
