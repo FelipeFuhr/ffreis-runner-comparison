@@ -25,7 +25,7 @@ jobs:
       python-version: "3.11"
       uv-extras: "dev"
       paths-to-mutate: "orchestrator workloads"
-      threshold: 70
+      threshold: 80
 
   notify-failure:
     needs: [mutation]

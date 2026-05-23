@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from time import sleep as time_sleep, time as time_time
+from time import sleep as time_sleep
+from time import time as time_time
 
 from httpx import get as httpx_get
 
