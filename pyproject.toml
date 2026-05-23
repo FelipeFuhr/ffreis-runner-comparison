@@ -27,6 +27,11 @@ onnx-runner-compare = "orchestrator.main:main"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q --strict-markers -ra"
+markers = [
+  "slow: long-running tests (mutation, full scenario runs)",
+  "integration: integration tests requiring external services",
+  "property: hypothesis property-based tests",
+]
 
 [tool.ruff]
 line-length = 100
@@ -44,3 +49,12 @@ ignore_missing_imports = true
 disable_error_code = ["arg-type"]
 exclude = "(^\\.venv/|^artifacts/)"
 files = ["orchestrator", "tests", "workloads"]
+
+[tool.coverage.run]
+branch = true
+source = ["orchestrator", "workloads"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 65
