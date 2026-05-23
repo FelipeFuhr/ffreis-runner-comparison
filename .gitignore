@@ -1,3 +1,29 @@
+# Python bytecode
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 *.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# Test / coverage
+.pytest_cache/
+.hypothesis/
+.coverage
+.coverage.*
+coverage.xml
+
+# Linter / type-checker caches
+.mypy_cache/
+.ruff_cache/
+
+# Packaging / build artifacts
+build/
+dist/
+*.egg-info/
+
+# Project-specific
+scripts/hooks/
+scripts/bootstrap_lefthook.sh
