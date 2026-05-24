@@ -12,9 +12,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   semgrep:
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
     uses: FelipeFuhr/ffreis-workflows-python/.github/workflows/python-semgrep.yml@v1.0.1
