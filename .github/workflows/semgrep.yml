@@ -1,11 +1,7 @@
 name: Semgrep (SAST)
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches: [main]
-  push:
-    branches: [main]
+  workflow_dispatch:
   schedule:
     - cron: "17 17 24 * *"  # monthly scattered (was: 0 8 * * 1)
 
