@@ -24,6 +24,9 @@ build/
 dist/
 *.egg-info/
 
+# SonarQube scanner
+.scannerwork/
+
 # Project-specific
 scripts/hooks/
 scripts/bootstrap_lefthook.sh
