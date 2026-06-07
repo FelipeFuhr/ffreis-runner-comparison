@@ -27,3 +27,4 @@ dist/
 # Project-specific
 scripts/hooks/
 scripts/bootstrap_lefthook.sh
+.scannerwork/
