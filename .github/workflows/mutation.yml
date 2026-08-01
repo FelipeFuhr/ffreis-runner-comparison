@@ -32,7 +32,7 @@ jobs:
   mutation:
     permissions:
       contents: read
-    uses: FelipeFuhr/ffreis-workflows-python/.github/workflows/python-mutation.yml@v1.0.1
+    uses: FelipeFuhr/ffreis-workflows-python/.github/workflows/python-mutation.yml@359eb22d0d22b6266b4543764f1c8bebe5e84765 # v1.3.0
     with:
       python-version: "3.11"
       uv-extras: "dev"
