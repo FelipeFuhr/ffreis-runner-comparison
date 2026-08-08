@@ -13,7 +13,10 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "mypy>=1.11.0",
-  "mutmut>=2.0.0",
+  # mutmut v3 dropped --paths-to-mutate/--tests-dir, which `make mutation-test`
+  # and mutation.yml's inline `mutmut run` step still invoke. Pin <3 until
+  # those migrate to v3-native [tool.mutmut] config.
+  "mutmut>=2.4,<3",
   "pre-commit>=3.7.0",
   "pytest>=8.3.0",
   "pytest-cov>=5.0.0",
@@ -57,4 +60,11 @@ source = ["orchestrator", "workloads"]
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
-fail_under = 65
+# Was 65% (below the fleet-wide 75% floor) with orchestrator/main.py's
+# perf/parity check orchestration and both workloads/grpc + workloads/locust
+# entirely untested. New tests brought real coverage to ~99.6%; 90% locks in
+# that gain with slack for legitimate future untested edge cases.
+fail_under = 90
+exclude_also = [
+  "if __name__ == .__main__.:",
+]
