@@ -73,3 +73,22 @@ class TestParityPropertyHelper:
         monkeypatch.setattr(parity_props, "httpx_post", lambda *_a, **_k: _R())
         with pytest.raises(RuntimeError, match="502"):
             parity_props._invoke("http://svc", b"x")
+
+
+class TestParityProperty:
+    """`@given` only fuzzes `rows`; python_base/rust_base are supplied normally."""
+
+    def test_matching_services_pass(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        def fake_invoke(base_url: str, payload: bytes) -> list[list[float]]:
+            return [[1.0, 2.0]]
+
+        monkeypatch.setattr(parity_props, "_invoke", fake_invoke)
+        parity_props.parity_property(python_base="http://py", rust_base="http://rs")
+
+    def test_mismatched_services_fail_assertion(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        def fake_invoke(base_url: str, payload: bytes) -> list[list[float]]:
+            return [[1.0]] if base_url == "http://py" else [[2.0]]
+
+        monkeypatch.setattr(parity_props, "_invoke", fake_invoke)
+        with pytest.raises(AssertionError):
+            parity_props.parity_property(python_base="http://py", rust_base="http://rs")

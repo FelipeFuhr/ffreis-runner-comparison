@@ -32,7 +32,7 @@ jobs:
   lint:
     permissions:
       contents: read
-    uses: FelipeFuhr/ffreis-workflows-python/.github/workflows/python-lint.yml@359eb22d0d22b6266b4543764f1c8bebe5e84765 # v1.3.0
+    uses: FelipeFuhr/ffreis-workflows-python/.github/workflows/python-lint.yml@8405bfc6e887b6e1af634a6ed104538ab98d3baf # main@8405bfc — post-v1.3.1, unreleased (release-please manifest is stale)
     with:
       python-version: "3.11"
       uv-extras: "dev"
