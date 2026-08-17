@@ -105,7 +105,15 @@ lefthook-run: lefthook-bootstrap ## Run all hooks locally (pre-commit + commit-m
 lefthook: lefthook-bootstrap lefthook-install lefthook-run ## Install hooks and run them
 
 # ── Standard quality-system targets ──────────────────────────────────────────
+# scan-fix(coverage:source-scope): SRC_DIR was "orchestrator" only, so
+# `make coverage` silently measured a narrower tree than pyproject.toml's
+# [tool.coverage.run] source (["orchestrator", "workloads"]) and CI's
+# coverage.yml (--cov=orchestrator --cov=workloads) -- workloads/grpc and
+# workloads/locust were invisible to the local target. SRC_DIRS covers both;
+# SRC_DIR kept (orchestrator only) since typecheck's `uv run mypy` reads its
+# own file list from pyproject.toml's [tool.mypy], not this var.
 SRC_DIR  ?= orchestrator
+SRC_DIRS ?= orchestrator workloads
 TEST_DIR ?= tests
 
 .PHONY: fmt-check
@@ -127,13 +135,16 @@ test-property: ## Run Hypothesis property-based tests
 
 .PHONY: coverage
 coverage: ## Run tests with coverage report
-	uv run pytest --cov=$(SRC_DIR) --cov-report=term-missing \
+	uv run pytest $(foreach d,$(SRC_DIRS),--cov=$(d)) --cov-report=term-missing \
 	  --cov-report=xml:coverage.xml $(TEST_DIR)
 
 .PHONY: mutation-test
 mutation-test: ## Run mutation testing with mutmut (slow — run in CI)
-	uv run mutmut run --paths-to-mutate=$(SRC_DIR) --tests-dir=$(TEST_DIR) || true
+	uv run mutmut run --paths-to-mutate="$(SRC_DIRS)" --tests-dir=$(TEST_DIR) || true
 	uv run mutmut results
+
+.PHONY: mutation
+mutation: mutation-test ## Alias for the lefthook release tier's `make mutation`
 
 .PHONY: clean
 clean: ## Remove caches and build artifacts

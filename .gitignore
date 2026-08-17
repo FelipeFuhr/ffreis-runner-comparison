@@ -19,6 +19,10 @@ coverage.xml
 .mypy_cache/
 .ruff_cache/
 
+# Mutation testing
+.mutmut-cache/
+*.bak
+
 # Packaging / build artifacts
 build/
 dist/
