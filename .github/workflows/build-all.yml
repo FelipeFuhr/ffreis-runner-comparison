@@ -52,3 +52,9 @@ jobs:
       # job starts. Renamed and dropped the duplicate hardcoded python-versions
       # line below, which had been silently overriding this cost-guard logic.
       python-versions: ${{ github.event_name == 'pull_request' && '["3.13"]' || '["3.13","3.11","3.10"]' }}
+      # scan-fix(ci:wrong-test-dir): python-build.yml's `test-dir` input
+      # defaults to "tests/unit_tests" — this repo's tests live flat under
+      # "tests/" (see pyproject.toml [tool.pytest.ini_options] testpaths),
+      # so the default made every matrix job fail with "file or directory
+      # not found: tests/unit_tests".
+      test-dir: "tests"
