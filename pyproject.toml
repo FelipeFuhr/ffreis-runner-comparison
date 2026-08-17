@@ -27,6 +27,15 @@ dev = [
 [project.scripts]
 onnx-runner-compare = "orchestrator.main:main"
 
+# scan-fix(ci:setuptools-flat-layout): the repo root also holds config/,
+# scenarios/, artifacts/ (data, not packages — no __init__.py). setuptools'
+# flat-layout auto-discovery can't tell those apart from orchestrator/ and
+# workloads/ (the only real importable packages) and refuses to build with
+# "Multiple top-level packages discovered in a flat-layout". `uv build`
+# (new Build All CI job) surfaced this; scope discovery explicitly.
+[tool.setuptools.packages.find]
+include = ["orchestrator*", "workloads*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q --strict-markers -ra"
