@@ -30,10 +30,25 @@ concurrency:
 
 jobs:
   mutation:
+    if: ${{ github.event_name != 'pull_request' }}
     permissions:
       contents: read
-    uses: FelipeFuhr/ffreis-workflows-python/.github/workflows/python-mutation.yml@8405bfc6e887b6e1af634a6ed104538ab98d3baf # main@8405bfc — post-v1.3.1, unreleased (release-please manifest is stale)
+    uses: FelipeFuhr/ffreis-workflows-python/.github/workflows/python-mutation.yml@6c507728c6d3dc346cbeb1fe19df72de018bd5b4 # v1.7.0
     with:
+      runner: '["ubuntu-latest"]'
+      python-version: "3.11"
+      uv-extras: "dev"
+      paths-to-mutate: "orchestrator workloads"
+      threshold: 80
+
+  mutation-incremental:
+    if: ${{ github.event_name == 'pull_request' }}
+    permissions:
+      contents: read
+    uses: FelipeFuhr/ffreis-workflows-python/.github/workflows/python-mutation.yml@6c507728c6d3dc346cbeb1fe19df72de018bd5b4 # v1.7.0
+    with:
+      in-diff: true
+      runner: '["ubuntu-latest"]'
       python-version: "3.11"
       uv-extras: "dev"
       paths-to-mutate: "orchestrator workloads"
